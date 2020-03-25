@@ -5,6 +5,34 @@ import GPPage from './gp';
 import RCPPage from './rcp';
 import NavigationGlobal from './common/NavigationGlobal';
 import LoginPage from './common/LoginPage';
+import MyPage from './myInfo';
+import ChatPage from './chat';
+import AlarmPage from './alarm';
+import styled,{ createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  body{
+    padding:0;
+    margin:0;
+    }
+
+  .container {
+    display: block;
+    float: left;
+    height: 100vh;
+    width: 82vw;
+    background-color: #fffadf;
+    overflow: auto;
+  }
+  .content-box {
+    height: 35vh;
+    padding: 5vw 4vw;
+    /* overflow: auto; */
+}
+`;
+
+
+
 /*
 Route의 props: {screen, url}
 */ 
@@ -13,8 +41,9 @@ Route의 props: {screen, url}
     const isLogin=true;
     return(
     <HashRouter>
+      <GlobalStyle/>
       <NavigationGlobal />
-      <Route path="/" exact="true" component={
+      <Route path="/" exact component={
         isLogin ? (
                 Home
             ) :
@@ -23,7 +52,9 @@ Route의 props: {screen, url}
             )}></Route>
       <Route path="/servicegp" component={GPPage}/>
       <Route path="/servicercp" component={RCPPage}/>
-
+      <Route path="/mychat" component={ChatPage}/>
+      <Route path="/alarm" component={AlarmPage}/>
+      <Route path="/myinfo" component={MyPage}/>
     </HashRouter>
     )
   }
