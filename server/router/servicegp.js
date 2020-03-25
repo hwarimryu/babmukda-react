@@ -26,15 +26,59 @@ router.get('/', function (req, res) {
     res.json({data:'this is servicegp'})
     // res.render('gp/main_gp',{})
 });
-// router.get('/allitems', function (request, response) {
-//     // 데이터베이스 요청을 수행합니다.
-//     conn.query("SELECT id,title,name,image,reqnum,maxnum,date_format(date, '%Y-%m-%d')date FROM gpitems order by id desc", function (error, data) {
-//         response.send(data);
-//         if (error) {
-//             console.log(error)
-//         }
-//     });
-// });
+router.get('/allitems', function (req, res) {
+    // 데이터베이스 요청을 수행합니다.
+    // conn.query("SELECT id,title,name,image,reqnum,maxnum,date_format(date, '%Y-%m-%d')date FROM gpitems order by id desc", function (error, data) {
+    //     response.send(data);
+    //     if (error) {
+    //         console.log(error)
+    //     }
+    // });
+    res.json({data:[{
+        id:1,
+        title:'오렌지 공구',
+        name:"오렌지",
+        reqnum:3,
+        maxnum:5,
+        date:200326
+    },{
+        id:2,
+        title:'오렌지 공구2',
+        name:"오렌지",
+        reqnum:3,
+        maxnum:5,
+        date:200326
+    },{
+        id:3,
+        title:'오렌지 공구3',
+        name:"오렌지",
+        reqnum:3,
+        maxnum:5,
+        date:200326
+    },{
+        id:4,
+        title:'오렌지 공구4',
+        name:"오렌지",
+        reqnum:3,
+        maxnum:5,
+        date:200326
+    },{
+        id:5,
+        title:'오렌지 공구5',
+        name:"오렌지",
+        reqnum:3,
+        maxnum:5,
+        date:200326
+    },{
+        id:6,
+        title:'오렌지 공구6',
+        name:"오렌지",
+        reqnum:3,
+        maxnum:5,
+        date:200326
+    }]});
+
+});
 // /*공동구매품목등록*/
 // /*1.page - URL : :3000/servicegp/add*/
 // router.get('/add', function (req, res) {
