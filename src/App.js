@@ -3,7 +3,7 @@ import {HashRouter, Route} from 'react-router-dom';
 import Home from './routes/Home';
 import GPPage from './gp';
 import RCPPage from './rcp';
-import NavigationGlobal from './common/NavigationGlobal';
+import Nav from './common/Nav';
 import LoginPage from './common/LoginPage';
 import MyPage from './myInfo';
 import ChatPage from './chat';
@@ -11,15 +11,20 @@ import AlarmPage from './alarm';
 import styled,{ createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  body{
+  *{
+    box-sizing:border-box;
+  }
+  html,body{
     padding:0;
     margin:0;
-    }
+    height:100vh;
+    width:100vw;
+  }
 
   .container {
+    height:100vh;
     display: block;
     float: left;
-    height: 100vh;
     width: 82vw;
     background-color: #fffadf;
     overflow: auto;
@@ -42,7 +47,7 @@ Route의 props: {screen, url}
     return(
     <HashRouter>
       <GlobalStyle/>
-      <NavigationGlobal />
+      <Nav />
       <Route path="/" exact component={
         isLogin ? (
                 Home
