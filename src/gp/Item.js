@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 function Item ({id,image,title,name,reqnum,maxnum,date}){
         return(
-            <ItemBox href='/servicegp/item.id'>
+            <ItemBox href='http://127.0.0.1:3000/api/servicegp/item.id'>
                 {/* <div class="content"> */}
                     <Img src="image/name=" alt=""/>
                     <TextBox >
@@ -33,6 +33,7 @@ Item.propTypes= {
 const ItemBox=styled.a`
     margin-bottom: 5vw;
     height: 18vh;
+    color: black;
 `
 
 const Img= styled.img`
