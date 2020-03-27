@@ -9,7 +9,7 @@ class RCPPage extends React.Component{
         rcpItems:[]
     };
     getRCPItems= async()=>{
-        const {data:{data:rcpItems}} = await axios.get("http://127.0.0.1:3001/api/servicegp/allitems");
+        const {data:{data:rcpItems}} = await axios.get("http://127.0.0.1:3001/api/servicercp/allitems");
         this.setState({isLoading:false, rcpItems});
         console.log(rcpItems);
     };
@@ -24,14 +24,14 @@ class RCPPage extends React.Component{
                 <Button type="reset">
                     새로고침
                 </Button>
-                <Button onclick="location.href='/servicegp/add'">
+                <Button onclick="location.href='/servicercp/add'">
                     등록
                 </Button>
             </NavBar>
 
             <ItemList>
                 {isLoading ? "Loading...": rcpItems.map( item=>{
-                    return <Item key={item.id} id={item.id} image={item.image} title={item.title} name={item.name} reqnum={item.reqnum} maxnum={item.maxnum} date={item.date}/>
+                    return <Item key={item.id} id={item.id} image={item.image} title={item.title} name={item.name} time={item.time} host={item.host}/>
                 })}
             </ItemList>
             

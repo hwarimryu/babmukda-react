@@ -1,130 +1,90 @@
 import React from 'react';
 import axios from 'axios';
-
 import styled from 'styled-components';
 
 class ChatPage extends React.Component{
 
+    cancleTrust=()=>{
+        return;
+    }
+    checkChatType=(item)=>{
+        if(item.state===2) {
+            return(
+                <tr><td onclick="window.location='/servicegp/<%=item.gpid%>'">{item.title}</td>
+                <td onclick="trustFunc(<%=item.rid%>)">신뢰도 평가하기</td></tr>
+            );
+        }else if(item.host===item.member){
+            return(
+            <tr><td onclick="window.location='/servicegp/<%=item.gpid%>'">{item.title}</td>
+                <td onclick="window.location='/chat/<%=item.rid%>'">CHAT 가기</td></tr>
+            );
+        }else{
+            return(
+            <tr><td onclick="window.location='/servicegp/<%=item.gpid%>'">{item.title}</td>
+                <td onclick="window.location='/chat/<%=item.rid%>'">CHAT 가기</td>
+                <td onclick="window.location='/servicegp/cancle_gp/<%=item.rid%>'">CHAT 종료</td></tr>
+            );
+        }
+    }
     render(){
         
         return(
             <section className="container" style={{padding: "5vw"}}>
-                <Menu>
-                    <a href="http://127.0.0.1:3001/api/servicegp/item.id" style={{color: "black", fontWeight: "bold", textDecoration: "none"}}> item.title</a> | <a >닫기</a>
-                </Menu>
-                <ChatBox method="POST">
-                    <ChatLog readonly>
-                        <MyMessage><MyMessage__tooltip>haha</MyMessage__tooltip></MyMessage>
-                        <MyMessage><MyMessage__tooltip>haha</MyMessage__tooltip></MyMessage>
-                        <YouMessage ><YouMessage__tooltip>haha</YouMessage__tooltip></YouMessage>
+                <h1>채팅방</h1>
+                <ChatList>
+                <tr><ChatTd onclick="window.location='/servicegp/<%=item.gpid%>'">title1</ChatTd>
+                <ChatTd onclick="trustFunc(<%=item.rid%>)">신뢰도 평가하기</ChatTd></tr>
+                <tr><ChatTd onclick="window.location='/servicegp/<%=item.gpid%>'">title2</ChatTd>
+                <ChatTd onclick="window.location='/chat/<%=item.rid%>'">CHAT 가기</ChatTd></tr>
+                <tr><ChatTd onclick="window.location='/servicegp/<%=item.gpid%>'">title3</ChatTd>
+                <ChatTd onclick="window.location='/chat/<%=item.rid%>'">CHAT 가기</ChatTd>
+                <ChatTd onclick="window.location='/servicegp/cancle_gp/<%=item.rid%>'">CHAT 종료</ChatTd></tr>
+                    {/* {data.map(item=>{ this.checkChatType(item);})} */}
+                </ChatList>
 
-                    </ChatLog>
-                    <br/>
-                    <Message rows="4" cols="53"></Message>
-                    <Button>SEND</Button>
-                </ChatBox>
+                <TrustForm id="trustForm" action="/trust_success" method="post">
+                <TrustButton type="submit" >완료</TrustButton>
+                <TrustButton cancle="true" type="button" onclick="cancleTrust()" >취소</TrustButton>
+                </TrustForm>
             </section>
         )
     }
 }
-const Menu=styled.div`
-    fontSize:"15pt"
-`;
-const ChatBox= styled.form`
-`;
-const ChatLog= styled.pre`
-    padding: 5vw;
-    background-color: white;
-    width: 100%;
-    height: 70vh;
-    border-radius: 5vw;
-    overflow:auto;
-`;
-const Message= styled.textarea`
-    width: 75%;
-    height: 66px;
-    border-radius: 10px;
-    margin-right: 1%;
-`;
+const ChatList= styled.table`
+    width:100%;
+`
 
-const Button=styled.button`
-    vertical-align: top;
-    border: none;
-    height: 20vw;
-    background: none;
-    font-size: 5.0vw;
+const ChatTd=styled.td`
+    font-size: 4vw;
     font-weight: bold;
+    overflow:hidden;
+    text-align: center;
+`;
+const TrustForm= styled.form`
+    display: none;
+    position: fixed;
+    padding: 10vw 5vw;
+    width: 70%;
+    height: 30%;
+    background: #deece0;
+    top: 55vw;
+    color: #000000;
+`;
+const TrustTd= styled.td`
+    padding: 0 40px 0 0 !important;
+    text-align: center;
+`;
+ 
+const TrustButton= styled.button`
+    background: none;
+    color: black;
+    font-size: 6vw;
+    font-weight: bold;
+    border: none;
+    position: absolute;
+    ${props=>props.cancle? "left":"right"}: 5vw;
+    top: 35vw;
+    width: 15vw;
 `;
 
-const MyMessage=styled.li`
-list-style-type:none;
-    position: relative;
-    width: 100%;
-    min-height: 8vh;
-`;
-const MyMessage__tooltip=styled.div`
-    position: absolute;
-    background: #ffd381;
-    right: 1vw;
-    border-radius: 1vw;
-    padding: 1vw 2vw;
-    color: black;
-    font-size: 5vw;
-    text-align: right;  
-`;
-const YouMessage=styled.li`
-    list-style-type:none;
-    position: relative;
-    width: 100%;
-    min-height: 8vh;
-`;
-const YouMessage__tooltip=styled.div`
-    position: absolute;
-    background: #bee6c4;
-    left: 1vw;
-    border-radius: 1vw;
-    padding: 1vw 2vw;
-    color: black;
-    font-size: 5vw;
-    text-align: left;  
-`;
-/*
-#chatLog li {
-        top: 5vw;
-        height: 10vw;
-    }
-    .my_message {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-    article {
-        padding: 5vw;
-    }
-    .my_message>.tooltip {
-        position: absolute;
-        background: #ffd381;
-        right: 3vw;
-        border-radius: 1vw;
-        padding: 1vw 2vw;
-        color: black;
-        font-size: 5vw;
-        text-align: right;
-    }
-    .you_message {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-    .you_message>.tooltip {
-        position: absolute;
-        background: #bee6c4;
-        left: 3vw;
-        border-radius: 1vw;
-        padding: 1vw 2vw;
-        color: black;
-        font-size: 5vw;
-        text-align: left;
-    }
-     */
 export default ChatPage;
