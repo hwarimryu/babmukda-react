@@ -24,6 +24,7 @@ function Nav(){
     
 }
 const Navbar = styled.div`
+    
     padding-top: 5vw;
     display: block;
     float: left;

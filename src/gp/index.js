@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Item from './Item';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 class GPPage extends React.Component{
     state = {
@@ -24,9 +25,11 @@ class GPPage extends React.Component{
                     <Button type="reset">
                         새로고침
                     </Button>
-                    <Button onclick="location.href='/servicegp/add'">
+                    <Link to="/servicegp/put">         
+                    <Button>
                         등록
                     </Button>
+                    </Link>
                 </NavBar>
 
                 <ItemList>

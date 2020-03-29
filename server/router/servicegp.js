@@ -81,63 +81,76 @@ router.get('/allitems', function (req, res) {
 });
 // /*공동구매품목등록*/
 // /*1.page - URL : :3000/servicegp/add*/
-// router.get('/add', function (req, res) {
-//     console.log('/servicegp' + req.path + ' -> ' + req.method)
-//     res.render('gp/add_gp',{})
-// });
+router.get('/put', function (req, res) {
+    console.log('/servicegp' + req.path + ' -> ' + req.method)
+    res.json({data:'this is servicegp put'})
+
+    // res.render('gp/add_gp',{})
+});
 
 // /*2.process- URL : :3000/servicegp/add*/
-// router.post('/add', upload.single('image'), function (req, res) {
-//     //입력값 limit은 5이하
-//     console.log('/servicegp' + req.path + ' -> ' + req.method)
-//     var post = req.body
-//     var title = post.title
-//     var name = post.name
-//     var price = post.price
-//     var addr = post.addr
-//     var details = post.details
-//     var photo
-//     var host = req.session.userId
-//     var maxnum = post.maxnum
+router.post('/add', upload.single('image'), function (req, res) {
+    //입력값 limit은 5이하
+    console.log('/servicegp' + req.path + ' -> ' + req.method)
+    var post = req.body
+    var title = post.title
+    var name = post.name
+    var price = post.price
+    var addr = post.addr
+    var details = post.details
+    var photo
+    var host = req.session.userId
+    var maxnum = post.maxnum
 
-//     if (5 < maxnum) { return res.end('limit : under 6') }
-//     //id, reqnum은 자동       
-//     if(!req.file){
-//         photo='no_image.png'
-//     }else{
-//         photo = req.file.filename
-//     }
-//     conn.query(`insert into gpitems values(NULL,?,?,?,?,?,default,?,?,?,default,default)`, [title, name, price, addr,maxnum, details, photo, host], function (err, result) {
-//         console.log(result)
-//         if (err) throw err;
-//         else{
-//             console.log(result)
-//             res.redirect(`/servicegp/${result.insertId}`)
-//         }
-//     })
-// });
+    // if (5 < maxnum) { return res.end('limit : under 6') }
+    // //id, reqnum은 자동       
+    // if(!req.file){
+    //     photo='no_image.png'
+    // }else{
+    //     photo = req.file.filename
+    // }
+    // conn.query(`insert into gpitems values(NULL,?,?,?,?,?,default,?,?,?,default,default)`, [title, name, price, addr,maxnum, details, photo, host], function (err, result) {
+    //     console.log(result)
+    //     if (err) throw err;
+    //     else{
+    //         console.log(result)
+    //         res.redirect(`/servicegp/${result.insertId}`)
+    //     }
+    // })
+    
+});
 
 // /* 항목하나 상세보기 페이지
 //     - URL : :3000/servicegp/id
 //     - 목록나옴-> 누르면 detail보여줌. */
 // var tempItem
-// router.get('/:id', function (req, res) {
-//     var gpId = req.params.id
-//     console.log('/servicegp' + req.path)
+router.get('/:id', function (req, res) {
+    var gpId = req.params.id
+    console.log('/servicegp' + req.path)
+    res.json({data:{
+        id:1,
+        title:'오렌지 공구',
+        name:"오렌지",
+        price:5000,
+        addr:"상암",
+        image:"orange.png",
+        reqnum:3,
+        maxnum:5,
+        date:200326,
+        host:"hwarim",
+        details:"오렌쥐~~~~~~~~"
+    }});
+    // conn.query("SELECT id,title,name,price,addr,image,reqnum,maxnum,date_format(date, '%Y-%m-%d')date,host,details FROM gpitems where id=?",
+    //         [gpId], function (error, result) {
+    //             if (error) console.log(error)
+    //             tempItem = result[0]
 
-//     conn.query("SELECT id,title,name,price,addr,image,reqnum,maxnum,date_format(date, '%Y-%m-%d')date,host,details FROM gpitems where id=?",
-//             [gpId], function (error, result) {
-//                 if (error) console.log(error)
-//                 tempItem = result[0]
-
-//                 res.render('gp/detail_gp',{
-//                     item: result[0],
-//                     userId:req.session.userId
-//                 })
-//             });
-
-
-// });
+    //             res.render('gp/detail_gp',{
+    //                 item: result[0],
+    //                 userId:req.session.userId
+    //             })
+    //         });
+});
 // /*공동구매품목수정*/
 // /*1.page - URL : :3000/servicegp/edit/id*/
 // router.get('/edit/:id', function (req, res) {

@@ -2,6 +2,9 @@ import React from "react";
 import {HashRouter, Route} from 'react-router-dom';
 import Home from './routes/Home';
 import GPPage from './gp';
+import GPAdd from './gp/GPAdd';
+import GPDetail from './gp/GPDetail';
+
 import RCPPage from './rcp';
 import Nav from './common/Nav';
 import LoginPage from './common/LoginPage';
@@ -47,7 +50,7 @@ Route의 props: {screen, url}
     return(
     <HashRouter>
       <GlobalStyle/>
-      <Nav />
+      <Nav/>
       <Route path="/" exact component={
         isLogin ? (
                 Home
@@ -55,7 +58,10 @@ Route의 props: {screen, url}
             (
                 LoginPage
             )}></Route>
-      <Route path="/servicegp" component={GPPage}/>
+      <Route path="/servicegp" exact component={GPPage}/>
+      <Route path="/servicegp/put" component={GPAdd}/>
+      <Route path="/servicegp/detail/:id" component={GPDetail}/>
+
       <Route path="/servicercp" component={RCPPage}/>
       <Route path="/mychat" component={ChatPage}/>
       <Route path="/alarm" component={AlarmPage}/>
