@@ -1,0 +1,53 @@
+/* 
+input,
+textarea {
+    padding: 1vw;
+    line-height: 4vw;
+    border: none;
+    width: 100%;
+    /* border: 1px solid;
+     */
+    /* border-radius: 3px;
+    background-color: #eceadd;
+} */ 
+
+label {
+    display: inline-block;
+    /* padding: 1vw; */
+    /* color: #999; */
+    font-size: 3.5vw;
+    width: 25%;
+    text-align: center;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #eceadd;
+    cursor: pointer;
+    line-height: 4vw;
+    padding: 1vw;
+    margin-left: 1vw;
+    /* border: 1px solid #ebebeb; */
+    /* border-bottom-color: #e2e2e2; */
+    border-radius: 1px;
+}
+input{
+    width: 100%;
+}
+input[type="file"] {
+
+    width: 1px;
+    height: 1px;
+   
+}
+
+.upload-name {
+    display: inline-block;
+    margin-bottom: 2vw;
+    width: 70%;
+    line-height: 4vw;
+    overflow: hidden;
+}
+
+ 
+#picture {
+    max-height: 40vh;
+}

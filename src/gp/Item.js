@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 
 function Item ({id,image,title,name,reqnum,maxnum,date}){
+    const url="servicegp/detail/"+id;
         return(
-            <ItemBox href='http://127.0.0.1:3000/api/servicegp/item.id'>
+            <Link to={url}>
+            <ItemBox>
                 {/* <div class="content"> */}
                     <Img src="image/name=" alt=""/>
                     <TextBox >
@@ -16,6 +19,7 @@ function Item ({id,image,title,name,reqnum,maxnum,date}){
                     </TextBox>
                 {/* </div> */}
             </ItemBox>
+            </Link>
         )
     
 };
@@ -30,7 +34,7 @@ Item.propTypes= {
     date:PropTypes.number.isRequired
 }
 
-const ItemBox=styled.a`
+const ItemBox=styled.div`
     margin-bottom: 5vw;
     height: 18vh;
     color: black;
