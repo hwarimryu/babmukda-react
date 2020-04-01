@@ -1,5 +1,7 @@
 import React from "react";
 import {HashRouter, Route} from 'react-router-dom';
+
+// import {logIn} from './auth/auth'
 import Home from './routes/Home';
 import GPPage from './gp';
 import GPAdd from './gp/GPAdd';
@@ -13,6 +15,7 @@ import ChatPage from './chat';
 import AlarmPage from './alarm';
 import styled,{ createGlobalStyle } from 'styled-components';
 
+// import 
 const GlobalStyle = createGlobalStyle`
   *{
     box-sizing:border-box;
@@ -39,34 +42,48 @@ const GlobalStyle = createGlobalStyle`
 }
 `;
 
-
-
 /*
 Route의 props: {screen, url}
 */ 
-  function App(){
+class App extends React.Component{
 
-    const isLogin=true;
+    state={ isLogin:false};
+
+    checkCookie=()=>{
+// 추가하기.
+    };
+    componentWillMount(){
+      if(this.checkCookie()){
+        this.state.isLogin=true;
+      }
+    }
+    render(){
+
+    
     return(
-    <HashRouter>
-      <GlobalStyle/>
-      <Nav/>
-      <Route path="/" exact component={
-        isLogin ? (
-                Home
-            ) :
-            (
-                LoginPage
-            )}></Route>
-      <Route path="/servicegp" exact component={GPPage}/>
-      <Route path="/servicegp/put" component={GPAdd}/>
-      <Route path="/servicegp/detail/:id" component={GPDetail}/>
+    
+      this.state.isLogin ? (
+        <HashRouter>
+        <GlobalStyle/>
+        <Nav/>
+        <Route path="/" exact component={Home}></Route>
+        <Route path="/servicegp" exact component={GPPage}/>
+        <Route path="/servicegp/put" component={GPAdd}/>
+        <Route path="/servicegp/detail/:id" component={GPDetail}/>
+  
+        <Route path="/servicercp" component={RCPPage}/>
+        <Route path="/mychat" component={ChatPage}/>
+        <Route path="/alarm" component={AlarmPage}/>
+        <Route path="/myinfo" component={MyPage}/>
+        </HashRouter>
+        ) :(
+            <LoginPage onSubmit={function(){
+              this.setState({isLogin:true});
+              document.cookie="username=test_host";
 
-      <Route path="/servicercp" component={RCPPage}/>
-      <Route path="/mychat" component={ChatPage}/>
-      <Route path="/alarm" component={AlarmPage}/>
-      <Route path="/myinfo" component={MyPage}/>
-    </HashRouter>
+            }.bind(this)}/>
+          )
     )
+          }
   }
 export default App;
