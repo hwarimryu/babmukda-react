@@ -1,27 +1,78 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import socketio from 'socket.io-client';
+const socket = socketio.connect('http://localhost:3001');
 
+class ChatForm extends React.Component{
+    state={
+        writer:'test_host',
+        content:'test~~'
+    }
+    handelContentChange=(event)=>{
+        this.setState({content:event.target.value})
+    }
+    send=()=>{
+        socket.emit('chat_msg',{
+            writer:this.state.writer,
+            content:this.state.content
+        })
+    }
+   
+    render(){
+        return(
+            <>
+            <Message onChange={this.handelContentChange} rows="4" cols="53"/>
+            <Button onClick={this.send}>SEND</Button>   
+            </>
+        )
+    }
+}
 class ChatRoom extends React.Component{
+
+    state={
+        history:[],
+        title:'',
+        gpid:-1, 
+        room_id: 1,//this.props.id,
+
+    }
+    openChatRoom= async ()=>{
+        const {data:{history,title,gpid}}=await axios.get("http://127.0.0.1:3001/chat/"+this.state.room_id);
+        this.setState({history,title,gpid});
+    }
+
+    componentDidMount(){
+        this.openChatRoom();
+        socket.on('chat_msg', (data)=>{
+            console.log(data.writer);
+            const tmp= this.state.history;
+            tmp.push(data);
+            this.setState({history:tmp})
+        })
+    }
 
     render(){
         
         return(
             <section className="container" style={{padding: "5vw"}}>
                 <Menu>
-                    <a href="http://127.0.0.1:3001/api/servicegp/item.id" style={{color: "black", fontWeight: "bold", textDecoration: "none"}}> item.title</a> | <a >닫기</a>
+                <a href="http://127.0.0.1:3001/api/servicegp/item.id" style={{color: "black", fontWeight: "bold", textDecoration: "none"}}> {this.state.title}</a> | <a >닫기</a>
                 </Menu>
-                <ChatBox method="POST">
                     <ChatLog readonly>
-                        <MyMessage><MyMessage__tooltip>haha</MyMessage__tooltip></MyMessage>
-                        <MyMessage><MyMessage__tooltip>haha</MyMessage__tooltip></MyMessage>
-                        <YouMessage ><YouMessage__tooltip>haha</YouMessage__tooltip></YouMessage>
-
+                        {
+                            this.state.history.map(item=>{
+                                if(item.writer=='test_host') 
+                                    return <MyMessage key={item.id}><MyMessage__tooltip>{item.content}</MyMessage__tooltip></MyMessage>;
+                                else{
+                                    return <YouMessage>test_guest<YouMessage__tooltip>{item.content}</YouMessage__tooltip></YouMessage>;
+                                }
+                            })
+                        }
                     </ChatLog>
                     <br/>
-                    <Message rows="4" cols="53"></Message>
-                    <Button>SEND</Button>
-                </ChatBox>
+                    <ChatForm/>
+                    
             </section>
         )
     }
@@ -29,8 +80,7 @@ class ChatRoom extends React.Component{
 const Menu=styled.div`
     fontSize:"15pt"
 `;
-const ChatBox= styled.form`
-`;
+
 const ChatLog= styled.pre`
     padding: 5vw;
     background-color: white;
