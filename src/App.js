@@ -48,8 +48,10 @@ Route의 props: {screen, url}
 class App extends React.Component{
 
     state={ isLogin:false};
-
     checkCookie=()=>{
+      if(document.cookie.match('(^|;) ?username([^;]*)(;|$)')){
+        return true;
+      }
 // 추가하기.
     };
     componentWillMount(){
@@ -77,9 +79,9 @@ class App extends React.Component{
         <Route path="/myinfo" component={MyPage}/>
         </HashRouter>
         ) :(
-            <LoginPage onSubmit={function(){
+            <LoginPage onSubmit={function(user_id,user_name){
               this.setState({isLogin:true});
-              document.cookie="username=test_host";
+              document.cookie="user_id="+user_id+"; user_name="+user_name;
 
             }.bind(this)}/>
           )

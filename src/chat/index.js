@@ -1,9 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-
+import ChatRoom from './ChatRoom'
 class ChatPage extends React.Component{
 
+    state={
+        page:'main',
+        chatId:-1
+    }
+    goChatRoom=(cid)=>{
+        this.setState({page:'chat',cid});
+    }
     cancleTrust=()=>{
         return;
     }
@@ -28,14 +35,16 @@ class ChatPage extends React.Component{
     }
     render(){
         
+        if(this.state.page==='main'){
         return(
+            
             <section className="container" style={{padding: "5vw"}}>
                 <h1>채팅방</h1>
                 <ChatList>
                 <tr><ChatTd onclick="window.location='/servicegp/<%=item.gpid%>'">title1</ChatTd>
                 <ChatTd onclick="trustFunc(<%=item.rid%>)">신뢰도 평가하기</ChatTd></tr>
                 <tr><ChatTd onclick="window.location='/servicegp/<%=item.gpid%>'">title2</ChatTd>
-                <ChatTd onclick="window.location='/chat/<%=item.rid%>'">CHAT 가기</ChatTd></tr>
+                <ChatTd onClick={()=>this.goChatRoom(1)}>CHAT 가기</ChatTd></tr>
                 <tr><ChatTd onclick="window.location='/servicegp/<%=item.gpid%>'">title3</ChatTd>
                 <ChatTd onclick="window.location='/chat/<%=item.rid%>'">CHAT 가기</ChatTd>
                 <ChatTd onclick="window.location='/servicegp/cancle_gp/<%=item.rid%>'">CHAT 종료</ChatTd></tr>
@@ -48,6 +57,12 @@ class ChatPage extends React.Component{
                 </TrustForm>
             </section>
         )
+        }
+        else{
+            return(
+                <ChatRoom chatId={this.state.chatId}/>
+            )
+        }
     }
 }
 const ChatList= styled.table`

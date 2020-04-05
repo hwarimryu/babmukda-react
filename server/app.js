@@ -11,23 +11,17 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use('/api',api);
 
-
 const port = process.env.PORT || 3001;
-app.listen(port,() => {
+const server = app.listen(port,() => {
     console.log(`Server Running at ${port}`);
 });
 
-// app.use(express.urlencoded({ extended: true }))
+//chat
+const chat = require('./router/chat')(server);
+app.use('/chat',chat);
 
-// // db연결
-// var mysql = require('mysql');
-// var dbConfig = {
-//     user: 'root',
-//     port: 3306,
-//     password: '1234',
-//     database: 'o2'
-// }
-// var conn = mysql.createConnection(dbConfig);
+// // app.use(express.urlencoded({ extended: true }))
+
 
 // //login, session
 // var session = require('express-session')
